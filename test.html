@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <center>
+      <div>
+        <h1>Mensajes en tiempo real</h1>
+        <div id="mensajes">
+            <!-- Aquí van a ir los mensajes -->
+        </div>
+      </div>
+      <div>
+        <textarea name="envio-mensajes" id="" cols="30" rows="10"></textarea
+        ><br />
+        <button type="button" id="send" onclick="addMessages()">Enviar</button>
+      </div>
+    </center>
+  </body>
+  <script src="https://cdn.socket.io/4.7.4/socket.io.min.js" integrity="sha384-Gr6Lu2Ajx28mzwyVR8CFkULdCU7kMlZ9UthllibdOSo6qAiN+yXNHqtgdTvFXMT4" crossorigin="anonymous"></script>
+  <script
+  src="https://code.jquery.com/jquery-3.7.1.min.js"
+  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+  crossorigin="anonymous"></script>
+  <script>
+    $(document).ready(function(){
+        var socket = io('http://localhost:9090', {
+            transports : ['websocket']
+        })
+
+        socket.on('connect', function(socket){
+            console.log('Connected');
+        })
+    })
+
+    function addMessages(data) {
+        const messageElement = document.createElement("li");
+        messageElement.textContent = "mensaje";
+
+        const messagesDiv = document.getElementById('mensajes');
+        messagesDiv.appendChild(messageElement);
+    }
+  </script>
+</html>
