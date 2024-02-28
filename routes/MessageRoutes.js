@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const messageSchema = require('../models/message');
+const messageSchema = require('../models/Message');
 
 router.get('/message', async (req, res) => {
     let messages = await messageSchema.find()

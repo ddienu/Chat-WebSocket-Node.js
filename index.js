@@ -8,6 +8,10 @@ const socket = require('socket.io'); //Importa la librería de socket.io
 const http = require('http').Server(app);//Importa la librería http y configura el server con la variable app que es la que contiene todo el programa.
 const io = socket(http);//Crea el servidor con el socket y le pasa la variable http.
 
+/*Importar la librería sever de graphQL */
+const { createYoga } = require('graphql-yoga');
+const schema = require('./graphql/schema');
+
 /*Configuración base de datos.*/
 const DB_URL = process.env.DB_URL || '';
 const mongoose = require("mongoose"); //Importa la libería de mongoose.
@@ -17,7 +21,7 @@ const userRoutes = require("./routes/UserRoutes");
 const houseRoutes = require("./routes/HouseRoutes");
 const messageRoutes = require('./routes/messageRoutes');
 
-const messageSchema = require('./models/message');
+const messageSchema = require('./models/Message');
 
 //Métodos websocket
 io.on('connect', (socket) => {
@@ -50,6 +54,12 @@ app.use((req, res, next) => {
   res.io = io;
   next();
 })
+
+const yoga = new createYoga({
+  schema
+});
+app.use('/graphql', yoga);
+
 /*Ejecuto el servidor*/
 app.use(router);
 app.use('/uploads', express.static('uploads'));
@@ -60,3 +70,5 @@ app.use('/', messageRoutes);
 http.listen(port, () => {
   console.log("Listen on port: " + port);
 });
+
+module.exports = http;
