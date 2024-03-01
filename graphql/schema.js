@@ -37,7 +37,7 @@ const House = new GraphQLObjectType({
     name : "House",
     fields : {
         _id : { type : GraphQLString },
-        adress : { type : GraphQLString },
+        address : { type : GraphQLString },
         city : { type : GraphQLString },
         state : { type : GraphQLString },
         size : { type : GraphQLInt },
@@ -59,6 +59,27 @@ const UserFilterInput = new GraphQLInputObjectType({
         lastname :  { type : GraphQLString },
         email : { type : GraphQLString },
     }
+});
+
+const MessageFilterInput = new GraphQLInputObjectType({
+  name: 'MessageFilterInput',
+  fields: {
+    _id : { type : GraphQLString },
+    body: {type: GraphQLString},
+    from: {type: GraphQLString},
+    to: {type: GraphQLString}
+  }
+});
+
+const HouseFilterInput =  new GraphQLInputObjectType({
+  name : "HouseFilterInput",
+  fields : {
+    _id : { type : GraphQLString },
+    address : { type: GraphQLString},
+    city : { type : GraphQLString },
+    size : { type : GraphQLInt},
+    parking : { type : GraphQLBoolean } 
+  }
 });
 
 const queries = {
@@ -83,7 +104,43 @@ const queries = {
       args: {
         filter: { type: UserFilterInput }
       }
-    }
+    },
+    Message : {
+      type : Message,
+      resolve : resolvers.Message,
+      args : {
+        id : {type : GraphQLString}
+      }
+    },
+    Messages : {
+      type : new GraphQLList(Message),
+      resolve: resolvers.Messages,
+     },
+     MessagesByFilter : {
+      type : new GraphQLList(Message),
+      resolve: resolvers.MessagesByFilter,
+      args : {
+        filter : { type : MessageFilterInput }
+      }
+     },
+     House : {
+      type : House,
+      resolve : resolvers.House,
+      args : {
+        id : {type : GraphQLString}
+      }
+     },
+     Houses : {
+      type : new GraphQLList(House),
+      resolve : resolvers.Houses
+     },
+     HousesByFilter : {
+      type : new GraphQLList(House),
+      resolve : resolvers.HousesByFilter,
+      args : {
+        filter : { type : HouseFilterInput }
+      }
+     }
   };
 
   const queryType = new GraphQLObjectType({
