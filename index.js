@@ -20,6 +20,7 @@ mongoose.connect(DB_URL); //Crear la cadena de conexión con Atlas en este caso.
 const userRoutes = require("./routes/UserRoutes");
 const houseRoutes = require("./routes/HouseRoutes");
 const messageRoutes = require('./routes/messageRoutes');
+const departmentRoutes = require('./read_file');
 
 const messageSchema = require('./models/Message');
 
@@ -66,6 +67,7 @@ app.use('/uploads', express.static('uploads'));
 app.use("/", userRoutes);
 app.use("/", houseRoutes);
 app.use('/', messageRoutes);
+app.use('/', departmentRoutes);
 /*Ejecución del servidor */
 http.listen(port, () => {
   console.log("Listen on port: " + port);
