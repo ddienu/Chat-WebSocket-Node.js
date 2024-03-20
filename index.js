@@ -5,6 +5,8 @@ const port = 9090; //Puerto por el que escuchará el servidor.
 require("dotenv").config(); //Se importan las variables de entorno.
 /*Web Sockets*/
 const socket = require('socket.io'); //Importa la librería de socket.io
+const cors = require('cors');
+app.use(cors());
 const http = require('http').Server(app);//Importa la librería http y configura el server con la variable app que es la que contiene todo el programa.
 const io = socket(http);//Crea el servidor con el socket y le pasa la variable http.
 

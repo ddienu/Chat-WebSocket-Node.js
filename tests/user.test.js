@@ -42,7 +42,7 @@ describe('POST /user', () => {
     it('create a new user in the DB and response with the data', async () => {
         const response = await request(app).post('/user').send(objectToTest)
         /** Asignando el _id del usuario nuevo a la variable userId 
-         *  para ser usanda en las otras pruebas */
+         *  para ser usada en las otras pruebas */
         userId = response.body._id;
 
         expect(response.statusCode).toBe(200)

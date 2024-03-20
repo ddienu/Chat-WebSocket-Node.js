@@ -22,7 +22,7 @@ class UserController {
       const token = jwt.sign(
         { userId: user._id, email: user.email },
         "secreto",
-        { expiresIn: "1h" }
+        //{ expiresIn: "1h" }
       );
 
       return { status: "success", token: token };

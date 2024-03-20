@@ -44,8 +44,8 @@ router.post("/house", (req, res) => {
       res.send(result);
     })
     .catch((error) => {
-      console.log(`Este es el valor de error ${error}`);
-      res.send({ Status: "error", Message: error.errors.code.message });
+      console.log(error);
+      // res.send({ Status: "error", Message: error.errors.code.message });
     });
 });
 //Put method to update house's properties.
@@ -68,17 +68,17 @@ router.put("/house/:id", (req, res) => {
 
     houseSchema.findByIdAndUpdate(id, updateHouse, {new : true}).then(result => {
         console.log(result);
-        res.send(result);
+        res.status(200).send(result);
     }).catch((error) =>{
-        res.send(error);
+        res.status(500).send(error);
     })
 });
 
 //Delete method to delete an specific house by its id.
 router.delete("/house/:id", (req, res) => {
-    let id = req.params.id;
+    let _id = req.params.id;
 
-    houseSchema.deleteOne({id : _id}).then(() => {
+    houseSchema.deleteOne({_id : _id}).then(() => {
         res.json({"status" : "success", "message" : "House deleted successfully"});                
     }).catch((error) => {
         console.log(error);

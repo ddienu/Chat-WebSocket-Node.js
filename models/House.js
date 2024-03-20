@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const userSchema = new mongoose.Schema({
+const houseSchema = new mongoose.Schema({
     
     address : {
         type : String,
@@ -10,9 +10,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         validate : async function(city){
-            var response = await fetch('https://api-colombia.com/api/v1/Department');
+            var response = await fetch('https://api-colombia.com/api/v1/City');
+            
             var cities = await response.json();
-            return cities.some(object => object.name.toUpperCase().includes(city.toUpperCase()));
+            return cities.some(object => object.name.toUpperCase() === (city.toUpperCase()));
         },
         message : props => `${props.value} not a valid city due is not a Colombian City`
     },
@@ -20,10 +21,12 @@ const userSchema = new mongoose.Schema({
         type : String,
         requires : true,
         validate : async function(state){
-            var response = await fetch('https://api-colombia.com/api/v1/City');
+            var response = await fetch('https://api-colombia.com/api/v1/Department');
+
             var departments = await response.json();
-            return departments.some(departments => departments.name.toUpperCase().includes(state.toUpperCase));
-        }
+            return departments.some(department => department.name.toUpperCase() === (state.toUpperCase()));
+        },
+        message : props => `${props.value} not a valid state due is not a Colombian State`
     },
     size : {
         type : Number,
@@ -68,4 +71,4 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('House', userSchema);
+module.exports = mongoose.model('House', houseSchema);

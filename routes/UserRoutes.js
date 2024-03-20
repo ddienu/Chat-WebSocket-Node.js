@@ -31,23 +31,25 @@ router.post('/user', async (req, res) => {
     const hashPassword = await bcrypt.hash(req.body.password, 10);
         
         let user = userSchema({
-            userId   : req.body.userId,
             name     : req.body.name,
             lastname : req.body.lastname,
             email    : req.body.email,
+            userId   : req.body.userId,
             password : hashPassword
         });
 
     user.save().then((result) => {
         res.send(result);
     }).catch((error) => {
-        console.log(error);
-        if(error.code == 11000){
-            res.send({"status" : "error", "message" :"El correo ya fue registrado"})
-        }else if(error.errors.email.message != null){
-            res.send({"status" : "error", "message" :error.errors.email.message})      
+        console.log(error.message.key);
+        console.log(error.keyValue.email);
+        console.log(error.keyPattern.key);
+        if(error.keyPattern.email === 1){
+            res.send({"status" : "error", "message" : "El email " + error.keyValue.email + " ya ha sido registrado"});
+        }else if(error.keyPattern.userId === 1){
+            res.send({"status" : "error", "message" : "La identificación " + error.keyValue.userId + " ya ha sido registrada"});
         }else{
-            res.send({"status" : "error", "message" :"Error almacenando la informacion"})      
+            res.send({"status" : "error", "message" : "Error al registar el usuario, verifique los datos"});
         }
     })
 })
