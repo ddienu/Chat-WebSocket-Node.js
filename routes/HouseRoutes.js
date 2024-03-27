@@ -41,11 +41,11 @@ router.post("/house", (req, res) => {
   addHouse
     .save()
     .then((result) => {
-      res.send(result);
+      res.status(200).send(result);
     })
     .catch((error) => {
-      console.log(error);
-      // res.send({ Status: "error", Message: error.errors.code.message });
+      // console.log(error);
+      res.status(400).send({ Status: "error", Message: error._message, Cause : "All fields must be defined"});
     });
 });
 //Put method to update house's properties.
@@ -79,7 +79,7 @@ router.delete("/house/:id", (req, res) => {
     let _id = req.params.id;
 
     houseSchema.deleteOne({_id : _id}).then(() => {
-        res.json({"status" : "success", "message" : "House deleted successfully"});                
+        res.json({"status" : "success", "message" : "House deleted successfully"});
     }).catch((error) => {
         console.log(error);
         res.json({"status" : "error", "message" : "Error deleting house"});

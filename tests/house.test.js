@@ -16,6 +16,7 @@ const objectToTest = {
 }
 let id;
 
+/*Successful Test*/
 describe('POST /house', () => {
     it('Create a new user into the DB and response with data', async () => {
         const response = await request(app).post('/house').send(objectToTest);
@@ -91,5 +92,35 @@ describe('DELETE /house/:id', () => {
         expect(response.body.status).toBe("success")
     })
 })
+
+
+/*Failed tests*/
+
+const objectToTestFail = {
+    "address" : 'Carrera 2A # 17A',
+    // "city" : "Bogotá D.C.",
+    "state" : "Cundinamarca",
+    "size" : 70,
+    "type" : "Apartment",
+    "zipCode" : "110111",
+    "rooms" : 3,
+    "bathrooms" : 2,
+    "parking" : true,
+    "price" : 260000000,
+    "code" : "AAAA1234",
+}
+
+let idObjectFail;
+
+describe('POST /house', () => {
+    it('Try to create a new house but failed because a field city was empty', async () => {
+        const response = await request(app).post('/house').send(objectToTestFail);
+
+        idObjectFail = response.body._id;
+
+        expect(response.statusCode).toBe(400);
+    });
+});
+
 
 
