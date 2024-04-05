@@ -55,20 +55,29 @@ router.post('/user', async (req, res) => {
 })
 
 //Put Method...Actualiza al usuario.
-router.put('/user/:_id', (req, res) => {
+router.put('/user/:_id', userController.validateToken, async (req, res) => {
     let _id = req.params._id;
+
+    let hashPassword;
+    if(req.body.password){
+        console.log(req.body.password)
+        hashPassword =  await bcrypt.hash(req.body.password, 10);
+    } 
 
     let updatedUser = {
         userId : req.body.userId,
         name : req.body.name,
         lastname : req.body.lastname,
         email : req.body.email,
+        password: hashPassword
     };
 
+    console.log(updatedUser);
+
     userSchema.findByIdAndUpdate(_id, updatedUser, {new : true}).then(result => {
-        console.log(result);
         res.send(result);
     }).catch((error) => {
+        console.log(error);
         res.send(error);
     })
 })

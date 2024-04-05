@@ -36,7 +36,7 @@ io.on('connect', (socket) => {
     messageSchema(payload).save().then((result) => {
       console.log(payload.body);
       /*Aquí estoy enviando el mensaje a todos los clientes conectados al websocket*/
-      socket.broadcast.emit('message-receipt', payload);
+      socket.broadcast.emit('message-receipt', result);
     }).catch((error) => {
       console.log("Error" + error.message);
     })
