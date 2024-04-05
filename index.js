@@ -21,7 +21,7 @@ mongoose.connect(DB_URL); //Crear la cadena de conexión con Atlas en este caso.
 /*Importación de las rutas  */
 const userRoutes = require("./routes/UserRoutes");
 const houseRoutes = require("./routes/HouseRoutes");
-const messageRoutes = require('./routes/messageRoutes');
+const messageRoutes = require('./routes/MessageRoutes');
 const departmentRoutes = require('./read_file');
 
 const messageSchema = require('./models/Message');
