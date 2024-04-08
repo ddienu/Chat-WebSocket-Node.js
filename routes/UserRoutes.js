@@ -8,7 +8,7 @@ const multer = require('multer');
 
 //Asignación del método{GET, POST, PUT/PATCH, DELETE} 
 //Get Method to find all users
-router.get('/user', userController.validateToken, async (req, res) => {
+router.get('/user',  async (req, res) => {
     //Por medio de este método se traen todos los usuarios que estén dentro de la base de datos.
     try{
         let users = await userSchema.find();
